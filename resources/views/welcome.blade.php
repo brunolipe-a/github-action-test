@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Bruno Felipe
+                    Deploy
                 </div>
 
                 <div class="links">
