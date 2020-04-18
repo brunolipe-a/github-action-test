@@ -1,0 +1,39 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+          
+    - name: Install dependencies
+      run: sudo apt-get update && apt-get install -y unzip git git-core
+      
+    - name: Create zip
+      run: git archive -o test.zip HEAD
+
+    - name: Beanstalk Deploy
+      uses: einaregilsson/beanstalk-deploy@v9
+      with:
+        aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+        aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
+        application_name: github-actions
+        environment_name: GithubActions-env
+        region: us-east-2
+        deployment_package: test.zip
