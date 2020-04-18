@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Get Composer Cache Directory
       id: composer-cache
       run: |
@@ -21,13 +21,13 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
-          
-    - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y unzip git git-core
-      
+
+    - name: Install git
+      run: sudo apt-get install -y unzip git git-core
+
     - name: Create zip
       run: git archive -o test.zip HEAD
-      
+
     - name: Get timestamp
       uses: gerred/actions/current-time@master
       id: current-time
