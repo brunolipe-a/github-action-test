@@ -50,4 +50,4 @@ jobs:
         environment_name: GithubActions-env
         region: us-east-2
         deployment_package: test.zip
-        version_label: "github-actions-${{ steps.format-time.outputs.replaced }}"
+        use_existing_version_if_available: true
