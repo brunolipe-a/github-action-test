@@ -42,7 +42,7 @@ jobs:
         flags: 'g'
 
     - name: Beanstalk Deploy
-      uses: einaregilsson/beanstalk-deploy@v9
+      uses: einaregilsson/beanstalk-deploy@v8
       with:
         aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
         aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
@@ -50,4 +50,4 @@ jobs:
         environment_name: GithubActions-env
         region: us-east-2
         deployment_package: test.zip
-        use_existing_version_if_available: true
+        version_label: "github-actions-${{ steps.format-time.outputs.replaced }}"
