@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip
+    
+ARG PUID=10315
+ARG PGID=10004
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -24,6 +27,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY . /var/www
 
+RUN usermod -u 1000 www-data
+RUN chown -R www-data:www-data /var/www
 RUN chmod -R 777 /var/www/storage
 
 EXPOSE 9000
