@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip
-    
+
 ARG PUID=10315
 ARG PGID=10004
 
@@ -30,6 +30,8 @@ COPY . /var/www
 RUN usermod -u 1000 www-data
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 777 /var/www/storage
+
+RUN composer install
 
 EXPOSE 9000
 

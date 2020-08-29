@@ -1,38 +1,27 @@
-version: "3"
-
+version: '3'
 services:
   laravel:
     container_name: laravel
     restart: always
     build: .
-    volumes:
-      - ./:/var/www/
-    depends_on:
-      - db
+    env_file:
+      - ./envs/.env
 
-  db:
-    image: postgres:alpine
+  app:
+    container_name: app
     restart: always
-    container_name: postgresql
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=docker-api
-    volumes:
-      - dbdata:/var/lib/postgresql/data
+    build: .
+    env_file:
+      - ./envs/.env.test
 
   nginx:
-    build: ./.docker/nginx
+    build:
+      context: .
+      dockerfile: Nginx.Dockerfile
     container_name: nginx
     restart: always
     ports:
-      - "8000:80"
-    volumes:
-      - ./:/var/www
+      - '8080:80'
     depends_on:
       - laravel
-
-volumes:
-  dbdata:
-    driver: local
+      - app

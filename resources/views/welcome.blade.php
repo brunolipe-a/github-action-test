@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Deploy
+                    {{ env('APP_NAME')}}
                 </div>
 
                 <div class="links">
